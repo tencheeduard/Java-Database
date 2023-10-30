@@ -3,12 +3,12 @@ package src.classes;
 public class Studen extends Table {
 
     private String name;
-    private Integer id;
+    private PrimaryKey<Integer> id;
 
-    public Studen()
+    public Studen() throws Exception
     {
         name = "Stuart";
-        id = 0;
+        id = new PrimaryKey<Integer>();
     }
 
 }

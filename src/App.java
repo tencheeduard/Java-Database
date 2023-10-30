@@ -2,17 +2,14 @@ package src;
 
 import src.classes.Studen;
 import src.classes.Table;
-import src.controller.DBController;
-
-import java.lang.reflect.Field;
 
 public class App {
 
-    public static void main(String[] args)
+    public static void main(String[] args) throws Exception
     {
-        Studen studen = new Studen();
+        Studen table = new Studen();
 
-        System.out.println(DBController.getProperty(studen, 1).getType());
+        System.out.println(table.getProperty(1).getType());
     }
 
 }
