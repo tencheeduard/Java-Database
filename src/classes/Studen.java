@@ -11,4 +11,10 @@ public class Studen extends Table {
         id = new PrimaryKey<Integer>();
     }
 
+    public Studen(String name, Integer id) throws Exception
+    {
+        this.name = name;
+        this.id = new PrimaryKey<Integer>(id);
+    }
+
 }
