@@ -1,37 +1,11 @@
 package src.classes;
 
-import java.lang.reflect.Type;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public class PrimaryKey<T extends Object> {
-
-    public T value;
-
-    public Type getValueClass()
-    {
-        return value.getClass();
-    }
-
-    public PrimaryKey() throws Exception
-    {
-        value = null;
-    }
-
-    public PrimaryKey(T value)
-    {
-        this.value = value;
-    }
-
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        System.out.println("A");
-        if(obj instanceof PrimaryKey<?> objPrimaryKey &&
-            value.getClass().equals(objPrimaryKey.value.getClass()))
-
-                return value.equals(objPrimaryKey.value);
-
-        return false;
-    }
-
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface PrimaryKey {
 }

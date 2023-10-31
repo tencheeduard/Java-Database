@@ -2,15 +2,17 @@ package src.classes;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.List;
 
 public class Table {
 
+    public Field[] primaryKeys;
 
-    // all tables must have a primary key
     public Table() throws Exception {
-        if (!checkPrimaryKey())
-            throw new Exception("Table has no Primary Key.");
+        primaryKeys = new Field[0];
+        if(!checkPrimaryKey())
+            throw new Exception("Table does not have a primary Key.");
     }
 
     public Field[] getProperties()
@@ -29,7 +31,8 @@ public class Table {
 
         Field[] fields = getProperties();
 
-        for (Field field : fields) {
+        for (Field field : fields)
+        {
             if (field.getName().equals(name))
                 return field;
         }
@@ -37,66 +40,37 @@ public class Table {
         return null;
     }
 
-    public List<Integer> getPrimaryKeyIndexes()
+    public boolean compare(Table other)
     {
-        List<Integer> result = new java.util.ArrayList<>(List.of()); //??
-        Field[] fields = getProperties();
-
-        for(Integer i = 0; i < fields.length; i++)
-            if(fields[i].getType() == PrimaryKey.class)
-                result.add(i);
-
-        if(!result.isEmpty())
-            return result;
-        return null;
+        if(this.getClass().equals(other.getClass()))
+        {
+            if (primaryKeys.length == other.primaryKeys.length)
+            {
+                for (int i = 0; i < primaryKeys.length; i++)
+                {
+                    System.out.println(primaryKeys[i].getName());
+                }
+            }
+        }
+        return true;
     }
 
-    public List<Type> getPrimaryKeyTypes()
+    private boolean checkPrimaryKey() throws Exception
     {
-        List<Integer> primaryKeys = getPrimaryKeyIndexes();
-        List<Type> result = List.of();
-
-        for(int i: primaryKeys)
-            result.add(getProperty(i).getType());
-
-        if(!result.isEmpty())
-            return result;
-        return null;
-    }
-
-    private boolean checkPrimaryKey()
-    {
-        boolean foundPrimaryKey = false;
-
         Field[] fields = getProperties();
 
         for(Field field: fields)
-            if(field.getType() == PrimaryKey.class)
-                return true;
-
-        return false;
-    }
-
-
-    public boolean compare(Table other)
-    {
-        boolean result = true;
-        if(getClass().equals(other.getClass()))
-        {
-            List<Integer> primaryKeys = getPrimaryKeyIndexes();
-            List<Integer> otherPrimaryKeys = other.getPrimaryKeyIndexes();
-
-            if (primaryKeys.size() == otherPrimaryKeys.size())
+            if(field.isAnnotationPresent(PrimaryKey.class))
             {
-                for (int i = 0; i < primaryKeys.size(); i++)
+                if(!field.getType().isPrimitive())
                 {
-                    
+                    primaryKeys = Arrays.copyOf(primaryKeys, primaryKeys.length + 1);
+                    primaryKeys[primaryKeys.length - 1] = field;
                 }
-                return result;
+                else throw new Exception("Primary Key may not be Primitive.");
             }
-        }
-        return false;
-    }
 
+        return primaryKeys.length > 0;
+    }
 
 }
