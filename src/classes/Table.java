@@ -55,13 +55,18 @@ public class Table {
     public boolean compare(Table other) throws Exception
     {
         boolean equal = true;
-        if(this.getClass().equals(other.getClass()))
+
+        if(this.getClass() == other.getClass())
             if (primaryKeys.length == other.primaryKeys.length)
-                for(int i = 0; i < primaryKeys.length; i++)
-                    if(primaryKeys[i].getType().equals(other.primaryKeys[i].getType()) &&
-                        !primaryKeys[i].get(this).equals(other.primaryKeys[i].get(other)))
-                            equal = false;
-        return equal;
+            {
+                for (int i = 0; i < primaryKeys.length; i++)
+                    if (primaryKeys[i].getType().equals(other.primaryKeys[i].getType()) &&
+                            !primaryKeys[i].get(this).equals(other.primaryKeys[i].get(other)))
+                        equal = false;
+                return equal;
+            }
+
+        return false;
     }
 
     private boolean checkPrimaryKey() throws Exception
