@@ -40,31 +40,28 @@ public class Table {
         return null;
     }
 
-    public void setPrimaryKey1(Object value) throws Exception
+    public void setProperty(String name, Object value) throws Exception
     {
-        if(value.getClass().equals(primaryKeys[0].getType()))
+        Field property = getProperty(name);
+
+        if(value.getClass().equals(property.getType()))
         {
-            primaryKeys[0].set(this, value);
+            property.set(this, value);
         }
         else
-            throw new Exception("yes");
+            throw new Exception("Value does not match the Field");
     }
 
-
-    public boolean compare(Table other) throws IllegalAccessException {
+    public boolean compare(Table other) throws Exception
+    {
+        boolean equal = true;
         if(this.getClass().equals(other.getClass()))
-        {
             if (primaryKeys.length == other.primaryKeys.length)
-            {
-                for (int i = 0; i < primaryKeys.length; i++)
-                {
-                    Object obj = new Object();
-                    primaryKeys[i].set(obj, obj);
-                    System.out.println(primaryKeys[i].getName());
-                }
-            }
-        }
-        return true;
+                for(int i = 0; i < primaryKeys.length; i++)
+                    if(primaryKeys[i].getType().equals(other.primaryKeys[i].getType()) &&
+                        !primaryKeys[i].get(this).equals(other.primaryKeys[i].get(other)))
+                            equal = false;
+        return equal;
     }
 
     private boolean checkPrimaryKey() throws Exception

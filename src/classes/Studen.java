@@ -2,12 +2,11 @@ package src.classes;
 
 public class Studen extends Table {
 
+
     public String name;
 
     @PrimaryKey
     public Integer id;
-
-    public String date;
 
     public Studen() throws Exception
     {
