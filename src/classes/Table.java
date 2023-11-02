@@ -40,14 +40,26 @@ public class Table {
         return null;
     }
 
-    public boolean compare(Table other)
+    public void setPrimaryKey1(Object value) throws Exception
     {
+        if(value.getClass().equals(primaryKeys[0].getType()))
+        {
+            primaryKeys[0].set(this, value);
+        }
+        else
+            throw new Exception("yes");
+    }
+
+
+    public boolean compare(Table other) throws IllegalAccessException {
         if(this.getClass().equals(other.getClass()))
         {
             if (primaryKeys.length == other.primaryKeys.length)
             {
                 for (int i = 0; i < primaryKeys.length; i++)
                 {
+                    Object obj = new Object();
+                    primaryKeys[i].set(obj, obj);
                     System.out.println(primaryKeys[i].getName());
                 }
             }
