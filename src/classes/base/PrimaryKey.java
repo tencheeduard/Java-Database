@@ -1,4 +1,4 @@
-package src.classes;
+package src.classes.base;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

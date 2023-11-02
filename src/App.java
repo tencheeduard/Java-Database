@@ -1,17 +1,18 @@
 package src;
 
-import src.classes.OtherTable;
-import src.classes.Studen;
+import src.classes.base.Database;
+import src.classes.base.Table;
+import src.classes.base.Table1;
 
 public class App {
 
     public static void main(String[] args) throws Exception
     {
-        Studen table = new Studen("abc", 1);
-        OtherTable table2 = new OtherTable("abc", 1);
+        Database dbo = new Database();
 
+        Table1 table = new Table1();
 
-        System.out.println(table.compare(table2));
+        dbo.addInstance(table);
     }
 
 }

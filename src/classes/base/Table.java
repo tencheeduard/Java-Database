@@ -1,9 +1,7 @@
-package src.classes;
+package src.classes.base;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Type;
 import java.util.Arrays;
-import java.util.List;
 
 public class Table {
 
@@ -40,6 +38,18 @@ public class Table {
         return null;
     }
 
+
+    public void setProperty(Integer index, Object value) throws Exception
+    {
+        Field property = getProperty(index);
+
+        if(value.getClass().equals(property.getType()))
+        {
+            property.set(this, value);
+        }
+        else
+            throw new Exception("Value does not match the Field");
+    }
     public void setProperty(String name, Object value) throws Exception
     {
         Field property = getProperty(name);
