@@ -1,25 +1,21 @@
 package src.classes.base;
 
 import java.util.HashMap;
-import java.util.List;
 
-public class Repo<T extends Table> {
+public class Repo {
 
-    public HashMap<Integer, T> list;
+    public HashMap<Integer, Table> list;
     private Class<? extends Table> type;
-
-
-    public static <S extends Table> Repo<S> newRepo(Class<S> instanceClass)
-    {
-        Repo<S> repo = new Repo<S>();
-        repo.type = instanceClass;
-
-        return repo;
-    }
 
     private Repo()
     {
-        list = new HashMap<Integer, T>();
+        list = new HashMap<Integer, Table>();
+    }
+
+    public Repo(Class<? extends Table> type)
+    {
+        list = new HashMap<Integer, Table>();
+        this.type = type;
     }
 
     public Class<? extends Table> getType()
@@ -27,14 +23,30 @@ public class Repo<T extends Table> {
         return type;
     }
 
-    public void addInstance(T instance)
+    public void addInstance(Table instance)
     {
         list.put(instance.hashCode(), instance);
     }
 
-    public void removeInstance(T instance) {
+    public void removeInstance(Table instance) {
         list.remove(instance);
     }
+
+    @Override
+    public int hashCode()
+    {
+        return 31 * type.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if(obj instanceof Repo repo)
+            return getType().equals(repo.getType());
+
+        return false;
+    }
+
 
 
 }

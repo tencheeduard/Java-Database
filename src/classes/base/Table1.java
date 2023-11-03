@@ -3,20 +3,30 @@ package src.classes.base;
 public class Table1 extends Table {
 
     @PrimaryKey
-    public Integer ID;
+    public Integer ID1;
+
+    @PrimaryKey
+    public Integer ID2;
 
     @PrimaryKey
     public String name;
 
+    public String toString()
+    {
+        return ID1.toString();
+    }
+
     public Table1() throws Exception
     {
-        ID = 1;
+        ID1 = 1;
+        ID2 = 2;
         name = "Daniel";
     }
 
-    public Table1(int ID, String name) throws Exception
+    public Table1(int ID1, int ID2, String name) throws Exception
     {
-        this.ID = ID;
+        this.ID1 = ID1;
+        this.ID2 = ID2;
         this.name = name;
     }
 

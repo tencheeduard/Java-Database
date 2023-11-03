@@ -62,32 +62,33 @@ public class Table {
             throw new Exception("Value does not match the Field");
     }
 
+    @Override
     // Returns true if it's same class and primary keys are equal
-    public boolean equals(Table other)
+    public boolean equals(Object obj)
     {
         boolean equal = true;
 
-        if(this.getClass() == other.getClass())
-            if (primaryKeys.length == other.primaryKeys.length)
-            {
-                for (int i = 0; i < primaryKeys.length; i++)
+        if(obj instanceof Table other && this.getClass() == other.getClass())
+                if (primaryKeys.length == other.primaryKeys.length)
                 {
-                    try {
-                        if (primaryKeys[i].getType().equals(other.primaryKeys[i].getType()) &&
-                                !primaryKeys[i].get(this).equals(other.primaryKeys[i].get(other)))
-                            equal = false;
+                    for (int i = 0; i < primaryKeys.length; i++)
+                    {
+                        try {
+                            if (primaryKeys[i].getType().equals(other.primaryKeys[i].getType()) &&
+                                    !primaryKeys[i].get(this).equals(other.primaryKeys[i].get(other)))
+                                equal = false;
+                            }
+                        catch(IllegalArgumentException e)
+                        {
+                            System.out.println("Could not compare values due to IllegalArgument");
                         }
-                    catch(IllegalArgumentException e)
-                    {
-                        System.out.println("Could not compare values due to IllegalArgument");
+                        catch(IllegalAccessException e)
+                        {
+                            System.out.println("Could not compare values due to IllegalAccess");
+                        }
                     }
-                    catch(IllegalAccessException e)
-                    {
-                        System.out.println("Could not compare values due to IllegalAccess");
-                    }
+                    return equal;
                 }
-                return equal;
-            }
 
         return false;
     }
@@ -95,7 +96,7 @@ public class Table {
     @Override
     public int hashCode()
     {
-        final int prime = 31;
+        final int prime = 1;
         int result = 1;
 
         for(int i = 0; i < primaryKeys.length; i++)
