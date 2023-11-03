@@ -13,7 +13,7 @@ public class Table1 extends Table {
 
     public String toString()
     {
-        return ID1.toString();
+        return name.toString();
     }
 
     public Table1() throws Exception

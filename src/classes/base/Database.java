@@ -1,5 +1,7 @@
 package src.classes.base;
 
+import src.classes.repos.ListRepo;
+
 import java.util.HashMap;
 
 public class Database {
@@ -14,7 +16,7 @@ public class Database {
     {
         boolean foundTable = map.containsKey(instance.hashCode());
 
-        Repo repo = new Repo(instance.getClass());
+        Repo<?> repo = new ListRepo<>(instance.getClass());
 
         if(!foundTable)
         {
@@ -23,8 +25,8 @@ public class Database {
         }
         else
         {
-            if(!repo.list.containsValue(instance))
-                repo.list.put(instance.hashCode(), instance);
+            if(!repo.contains(instance) && instance.getClass() == repo.getType())
+                ;//repo.add(repo.getType().cast(instance));
         }
 
 

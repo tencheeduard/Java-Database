@@ -1,6 +1,7 @@
 package src;
 
 import src.classes.base.*;
+import src.classes.repos.ListRepo;
 
 import java.util.HashMap;
 
@@ -11,26 +12,25 @@ public class App {
         Database dbo = new Database();
 
         Table1 table = new Table1(1, 2, "Daniel");
-        Table1 table2 = new Table1(2, 1, "Daniel");
+        Table1 table2 = new Table1(2, 1, "Nathaniel");
 
 
         //System.out.println(table.hashCode());
         //System.out.println(table2.hashCode());
         //System.out.println(table.equals(table2));
 
-        HashMap<Integer, Table> hash = new HashMap<Integer, Table>();
-
-        hash.put(table.hashCode(), table);
-        hash.put(table2.hashCode(), table2);
-
-        System.out.println(table.equals(table2));
+        ListRepo<Table1> repo = new ListRepo<>(Table1.class);
 
 
-        System.out.println(table);
-        System.out.println(table2);
+        repo.add(table);
+        repo.add(table2);
+        repo.add(table2);
+        repo.add(table2);
+        repo.add(table2);
+        repo.add(table2);
 
-        System.out.println(hash.get(table2.hashCode()));
-        System.out.println(hash.values().size());
+        for(int i = 0; i < repo.getSize(); i++)
+            System.out.println(repo.getValue(i));
 
 
 

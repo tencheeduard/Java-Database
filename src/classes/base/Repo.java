@@ -1,35 +1,45 @@
 package src.classes.base;
 
-import java.util.HashMap;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
-public class Repo {
+public abstract class Repo<T extends Table> {
+    protected Class<T> type;
 
-    public HashMap<Integer, Table> list;
-    private Class<? extends Table> type;
-
-    private Repo()
+    public boolean add(Object obj)
     {
-        list = new HashMap<Integer, Table>();
+        T instance = castToGeneric(obj);
+        if(instance != null && !contains(instance))
+            return addToRepo(instance);
+        return false;
     }
 
-    public Repo(Class<? extends Table> type)
+    public abstract boolean addToRepo(T instance);
+
+    public abstract boolean remove(T obj);
+
+    public abstract T getValue(int index);
+
+    public abstract int getSize();
+
+    public abstract boolean contains(Object obj);
+
+    protected Repo() {}
+
+    public Repo(Class<T> type)
     {
-        list = new HashMap<Integer, Table>();
         this.type = type;
     }
-
     public Class<? extends Table> getType()
     {
         return type;
     }
 
-    public void addInstance(Table instance)
+    public T castToGeneric(Object obj)
     {
-        list.put(instance.hashCode(), instance);
-    }
-
-    public void removeInstance(Table instance) {
-        list.remove(instance);
+        if(obj.getClass() == type)
+            return type.cast(obj);
+        return null;
     }
 
     @Override
@@ -41,12 +51,9 @@ public class Repo {
     @Override
     public boolean equals(Object obj)
     {
-        if(obj instanceof Repo repo)
+        if(obj instanceof Repo<?> repo)
             return getType().equals(repo.getType());
-
         return false;
     }
-
-
 
 }
