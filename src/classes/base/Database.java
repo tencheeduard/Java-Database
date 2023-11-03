@@ -1,34 +1,26 @@
 package src.classes.base;
 
-import java.util.List;
+import java.util.HashMap;
 
 public class Database {
-    List<Repo<?>> list;
+    HashMap<Integer, Repo<?>> map;
 
     public Database()
     {
-        list = List.of();
+        map = new HashMap<Integer, Repo<?>>();
     }
 
-    public void addInstance(Table instance) throws Exception {
-        boolean foundTable = false;
-        for(Repo repo: list)
-        {
-            for(Object table: repo.list)
-            {
-                if(table.getClass() == instance.getClass())
-                    foundTable = true;
-            }
-        }
+    public void addInstance(Table instance) throws Exception
+    {
+        boolean foundTable = map.containsKey(instance.hashCode());
 
-        System.out.println(foundTable);
-
-        if(foundTable == false)
+        if(!foundTable)
         {
             Repo<?> repo = Repo.newRepo(instance.getClass());
-            list.add(repo);
+
+            //map.put();
         }
 
-        System.out.println(list.get(0));
+
     }
 }

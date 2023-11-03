@@ -62,7 +62,8 @@ public class Table {
             throw new Exception("Value does not match the Field");
     }
 
-    public boolean compare(Table other) throws Exception
+    // Returns true if it's same class and primary keys are equal
+    public boolean equals(Table other)
     {
         boolean equal = true;
 
@@ -70,14 +71,46 @@ public class Table {
             if (primaryKeys.length == other.primaryKeys.length)
             {
                 for (int i = 0; i < primaryKeys.length; i++)
-                    if (primaryKeys[i].getType().equals(other.primaryKeys[i].getType()) &&
-                            !primaryKeys[i].get(this).equals(other.primaryKeys[i].get(other)))
-                        equal = false;
+                {
+                    try {
+                        if (primaryKeys[i].getType().equals(other.primaryKeys[i].getType()) &&
+                                !primaryKeys[i].get(this).equals(other.primaryKeys[i].get(other)))
+                            equal = false;
+                        }
+                    catch(IllegalArgumentException e)
+                    {
+                        System.out.println("Could not compare values due to IllegalArgument");
+                    }
+                    catch(IllegalAccessException e)
+                    {
+                        System.out.println("Could not compare values due to IllegalAccess");
+                    }
+                }
                 return equal;
             }
 
         return false;
     }
+
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+
+        for(int i = 0; i < primaryKeys.length; i++)
+        {
+            try {
+                result = prime * result + primaryKeys[i].get(this).hashCode();
+            }
+            catch (Exception e) {}
+        }
+
+        return result;
+    }
+
+
+
 
     private boolean checkPrimaryKey() throws Exception
     {
