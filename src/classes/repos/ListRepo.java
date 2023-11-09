@@ -6,16 +6,29 @@ import src.classes.base.Table;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListRepo<T extends Table> extends Repo<T> {
+public class ListRepo<T> extends Repo<T> {
 
     protected List<T> list;
 
-    protected ListRepo() {}
+    protected ListRepo()
+    {
+        this.list = new ArrayList<T>();
+    }
 
     public ListRepo(Class<T> type)
     {
         list = new ArrayList<T>();
         this.type = type;
+    }
+
+    public static <S> ListRepo<S> newRepo(Class<S> clazz) throws Exception {
+        ListRepo<S> result;
+        if(clazz.getDeclaredConstructor().newInstance() instanceof Table)
+            result = new ListRepo<S>();
+        else throw new Exception("Repo must contain a Table");
+
+        result.type = clazz;
+        return result;
     }
 
     @Override

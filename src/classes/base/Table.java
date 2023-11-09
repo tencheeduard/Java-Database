@@ -96,7 +96,7 @@ public class Table {
     @Override
     public int hashCode()
     {
-        final int prime = 1;
+        final int prime = 31;
         int result = 1;
 
         for(int i = 0; i < primaryKeys.length; i++)
@@ -129,6 +129,22 @@ public class Table {
             }
 
         return primaryKeys.length > 0;
+    }
+
+    @Override
+    public String toString()
+    {
+        String primaryKeysStr = "";
+
+        for(Field i: primaryKeys)
+        {
+            try {
+                primaryKeysStr += i.getName() + "(" + i.getType().getSimpleName() + ")" + " = " + i.get(this) + ", ";
+            }
+            catch (IllegalAccessException e) { }
+        }
+
+        return this.getClass().getSimpleName() + " with Primary Keys: " + primaryKeysStr;
     }
 
 }

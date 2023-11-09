@@ -11,11 +11,6 @@ public class Table1 extends Table {
     @PrimaryKey
     public String name;
 
-    public String toString()
-    {
-        return name.toString();
-    }
-
     public Table1() throws Exception
     {
         ID1 = 1;

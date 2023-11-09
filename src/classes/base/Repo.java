@@ -3,7 +3,7 @@ package src.classes.base;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-public abstract class Repo<T extends Table> {
+public abstract class Repo<T> {
     protected Class<T> type;
 
     public boolean add(Object obj)
@@ -24,13 +24,14 @@ public abstract class Repo<T extends Table> {
 
     public abstract boolean contains(Object obj);
 
-    protected Repo() {}
+    protected Repo() {
+    }
 
     public Repo(Class<T> type)
     {
         this.type = type;
     }
-    public Class<? extends Table> getType()
+    public Class<?> getType()
     {
         return type;
     }
