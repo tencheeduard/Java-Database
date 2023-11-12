@@ -4,18 +4,26 @@ import src.classes.repos.ListRepo;
 
 import java.util.HashMap;
 
-public abstract class Database {
+public class Database {
 
     public Database()
     {
 
     }
 
-    public abstract boolean add(Object obj) throws Exception;
+    public boolean add(Object obj) throws Exception{
 
-    public abstract boolean contains(Repo<?> repo);
+    }
 
-    public abstract Table[] getTables();
+    public boolean contains(Repo<?> repo){
 
-    public abstract Table[] getTables(String tableName);
+    }
+
+    public Table[] getTables(){
+
+    }
+
+    public Table[] getTables(String tableName){
+
+    }
 }
