@@ -16,7 +16,15 @@ public abstract class Repo<T> {
 
     public abstract boolean addToRepo(T instance);
 
-    public abstract boolean remove(T obj);
+    public boolean remove(Object obj)
+    {
+        T instance = castToGeneric(obj);
+        if(instance != null && !contains(instance))
+            return removeFromRepo(instance);
+        return false;
+    }
+
+    public abstract boolean removeFromRepo(T instance);
 
     public abstract T getValue(int index);
 

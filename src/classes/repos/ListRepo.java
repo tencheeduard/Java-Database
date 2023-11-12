@@ -37,7 +37,7 @@ public class ListRepo<T> extends Repo<T> {
     }
 
     @Override
-    public boolean remove(T instance) {
+    public boolean removeFromRepo(T instance) {
         return list.remove(instance);
     }
 
