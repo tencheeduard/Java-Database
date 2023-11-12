@@ -1,16 +1,17 @@
 package src.classes.base;
 
-import src.classes.repos.ListRepo;
-
-import java.util.HashMap;
-
 public class Database {
 
-    DbStrategy strategy;
+    DatabaseStrategy strategy;
 
-    public Database(DbStrategy strategy)
+    public Database(DatabaseStrategy strategy)
     {
         this.strategy=strategy;
+    }
+
+    public DatabaseStrategy getStrategy()
+    {
+        return strategy;
     }
 
     public boolean add(Table table) throws Exception{

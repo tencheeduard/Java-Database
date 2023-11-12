@@ -32,4 +32,12 @@ public class ArrayHelper {
         return addElement(array, object, array.length);
     }
 
+    public static <S extends Object> boolean contains(S[] array, S object)
+    {
+        for(S el: array)
+            if(el.equals(object))
+                return true;
+        return false;
+    }
+
 }

@@ -1,4 +1,8 @@
-package src.classes.base;
+package src.classes.controllers;
+
+import src.classes.base.ArrayHelper;
+import src.classes.base.Database;
+import src.classes.factories.DatabaseFactory;
 
 import java.util.Scanner;
 

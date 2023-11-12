@@ -1,12 +1,15 @@
-package src.classes.base;
+package src.classes.strategies;
 
-import src.classes.repos.ListRepo;
+import src.classes.base.DatabaseStrategy;
+import src.classes.base.Repo;
+import src.classes.base.Table;
+import src.classes.repositories.ListRepo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ListStrategy implements DbStrategy{
+public class ListStrategy implements DatabaseStrategy {
 
     List<ListRepo<?>> list;
 

@@ -1,4 +1,4 @@
-package src.classes.repos;
+package src.classes.repositories;
 
 import src.classes.base.Repo;
 import src.classes.base.Table;

@@ -1,5 +1,7 @@
 package src.classes.base;
 
+import src.classes.annotations.PrimaryKey;
+
 import java.lang.reflect.Field;
 import java.util.Arrays;
 

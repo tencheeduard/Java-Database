@@ -1,6 +1,9 @@
-package src.classes.base;
+package src.classes.factories;
 
-public class DbFactory {
+import src.classes.base.Database;
+import src.classes.strategies.ListStrategy;
+
+public class DatabaseFactory {
 
     public static Database newDb(String string){
         switch (string){

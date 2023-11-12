@@ -1,6 +1,6 @@
 package src.classes.base;
 
-public interface DbStrategy {
+public interface DatabaseStrategy {
 
     public boolean add(Table table) throws Exception;
     public boolean remove(Table table) throws Exception;
