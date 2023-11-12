@@ -13,24 +13,24 @@ public class Table {
             throw new Exception("Table does not have a primary Key.");
     }
 
-    public Field[] getProperties()
+    public Field[] getFields()
     {
         return getClass().getDeclaredFields();
     }
-    public Field getProperty(Integer index)
+    public Field getField(Integer index)
     {
-        Field[] fields = getProperties();
+        Field[] fields = getFields();
 
         if(index < fields.length && index >= 0)
             return fields[index];
         return null;
     }
-    public Field getProperty(String name) {
+    public Field getField(String name)
+    {
 
-        Field[] fields = getProperties();
+        Field[] fields = getFields();
 
-        for (Field field : fields)
-        {
+        for (Field field : fields) {
             if (field.getName().equals(name))
                 return field;
         }
@@ -38,10 +38,19 @@ public class Table {
         return null;
     }
 
+    public Object getProperty(Integer index) throws IllegalAccessException
+    {
+        return getField(index).get(this);
+    }
+
+    public Object getProperty(String name) throws IllegalAccessException
+    {
+        return getField(name).get(this);
+    }
 
     public void setProperty(Integer index, Object value) throws Exception
     {
-        Field property = getProperty(index);
+        Field property = getField(index);
 
         if(value.getClass().equals(property.getType()))
         {
@@ -50,9 +59,10 @@ public class Table {
         else
             throw new Exception("Value does not match the Field");
     }
+
     public void setProperty(String name, Object value) throws Exception
     {
-        Field property = getProperty(name);
+        Field property = getField(name);
 
         if(value.getClass().equals(property.getType()))
         {
@@ -115,7 +125,7 @@ public class Table {
 
     private boolean checkPrimaryKey() throws Exception
     {
-        Field[] fields = getProperties();
+        Field[] fields = getFields();
 
         for(Field field: fields)
             if(field.isAnnotationPresent(PrimaryKey.class))

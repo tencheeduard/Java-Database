@@ -26,6 +26,7 @@ public class ListDatabase extends Database {
         if(obj instanceof Table table)
             clazz = obj.getClass();
         else return false;
+
         ListRepo<?> repo = ListRepo.newRepo(clazz);
 
         int repoIndex;

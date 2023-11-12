@@ -11,6 +11,9 @@ public class App {
 
     public static void main(String[] args) throws Exception
     {
+
+
+
         ListDatabase dbo = new ListDatabase();
 
         Table1 table = new Table1(1, 2, "Daniel");
@@ -20,7 +23,6 @@ public class App {
         Table2 table3 = new Table2();
         Table2 table4 = new Table2();
         Table2 table5 = new Table2();
-
 
         dbo.add(table);
         dbo.add(table2);
@@ -32,10 +34,14 @@ public class App {
 
 
         Table[] tables = dbo.getTables();
-        QueryController.displayColumn(dbo, "Table1", "name", "Person Name");
+
+        String[] columns = {"name", "ID1"};
+        //QueryController.displayQuery(dbo, "Table1", columns);
+
 
         //dbo.addInstance(table);
         //dbo.addInstance(table2);
+
     }
 
 }

@@ -8,7 +8,6 @@ public class Table1 extends Table {
     @PrimaryKey
     public Integer ID2;
 
-    @PrimaryKey
     public String name;
 
     public Table1() throws Exception
