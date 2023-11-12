@@ -1,11 +1,6 @@
 package src;
 
 import src.classes.base.*;
-import src.classes.controllers.QueryController;
-import src.classes.databases.ListDatabase;
-import src.classes.repos.ListRepo;
-
-import java.util.HashMap;
 
 public class App {
 
