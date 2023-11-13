@@ -4,11 +4,9 @@ import src.classes.annotations.Cache;
 import src.classes.annotations.Command;
 import src.classes.base.ArrayHelper;
 import src.classes.base.CacheTriplet;
-import src.classes.base.Database;
 import src.classes.base.DatabaseProxy;
-import src.classes.factories.DatabaseFactory;
+import src.classes.factories.ProxyFactory;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.Scanner;
 
@@ -44,17 +42,17 @@ public class CLIController {
         String[] options = {"List"};
 
         String choice = "";
-        Database DB = null;
+        DatabaseProxy proxy = null;
         for(String option: options)
         {
             if(args[1].equalsIgnoreCase(option)) {
-                DB = DatabaseFactory.newDb(args[0], option);
-                proxies = ArrayHelper.addElement(proxies, new DatabaseProxy(DB));
+                proxy = ProxyFactory.create(args[0], option);
+                proxies = ArrayHelper.addElement(proxies, proxy);
                 choice = option;
             }
         }
 
-        if(!choice.equals("") && DB != null)
+        if(!choice.equals("") && proxy != null)
             return "Created Database " + args[0] + " with strategy " + choice;
         return "Could not create Database";
     }
@@ -112,9 +110,8 @@ public class CLIController {
     {
         input = input.replace("-", "");
         String[] strings = input.split(" ");
-        for(int i = 0; i < strings.length; i++)
-        {
-            if(strings[i].equals(""))
+        for(int i = 0; i < strings.length; i++) {
+            if (strings[i].equals(""))
                 strings = ArrayHelper.removeElement(strings, i--);
         }
 
@@ -125,12 +122,15 @@ public class CLIController {
 
         // If no cached output is found, search for method and invoke it
         Method[] methods = getClass().getDeclaredMethods();
-        for (Method method : methods) {
-            if (method.getName().equalsIgnoreCase(strings[0]) && method.isAnnotationPresent(Command.class) && method.getReturnType() == String.class) {
-
+        for (Method method : methods)
+            if (method.getName().equalsIgnoreCase(strings[0]) &&
+                    method.isAnnotationPresent(Command.class) &&
+                    method.getReturnType() == String.class)
+            {
                 boolean gotOutput = false;
+
                 // Check for cached output if method is cacheable
-                if(method.isAnnotationPresent(Cache.class)) {
+                if(method.isAnnotationPresent(Cache.class))
                     for (DatabaseProxy proxy : proxies) {
                         CacheTriplet cachedData = proxy.getCachedData(strings);
                         if (cachedData != null) {
@@ -138,20 +138,16 @@ public class CLIController {
                             gotOutput = true;
                         }
                     }
-                }
                 if(!gotOutput)
                     output = (String) method.invoke(this, (Object) ArrayHelper.removeElement(strings, 0));
 
                 // Cache output
                 if(method.isAnnotationPresent(Cache.class))
-                    for (String str : strings) {
-                        for (DatabaseProxy proxy : proxies) {
+                    for (String str : strings)
+                        for (DatabaseProxy proxy : proxies)
                             if (proxy.hasTable(str))
                                 proxy.cache(str, strings, output);
-                        }
-                    }
             }
-        }
 
         System.out.println(output);
     }

@@ -1,15 +1,18 @@
-package src.classes.base;
+package src.classes.tables;
 
 import src.classes.annotations.PrimaryKey;
+import src.classes.base.Table;
 
-public class ReceiptAnimal extends Table{
+public class ReceiptAnimal extends Table {
 
     @PrimaryKey
-    Integer idReceipt;
+    public Integer idReceipt;
     @PrimaryKey
-    Integer idAnimal;
-    Integer price;
-    
+    public Integer idAnimal;
+    public Integer price;
+
+
+    public ReceiptAnimal() throws Exception {}
     public ReceiptAnimal(Integer idReceipt, Integer idAnimal, Integer price) throws Exception {
         this.idAnimal=idAnimal;
         this.idReceipt=idReceipt;

@@ -1,8 +1,5 @@
 package src.classes.base;
 
-import java.lang.reflect.Array;
-import java.util.Dictionary;
-
 public class DatabaseProxy extends Observable implements Observer {
 
 
@@ -44,7 +41,7 @@ public class DatabaseProxy extends Observable implements Observer {
 
     public void addTable(String tableName) throws Exception
     {
-        Class<?> clazz = Class.forName("src.classes.base." + tableName);
+        Class<?> clazz = Class.forName("src.classes.tables." + tableName);
 
         if(clazz.getDeclaredConstructor().newInstance() instanceof Table table)
         {
