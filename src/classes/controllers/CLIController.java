@@ -22,6 +22,13 @@ public class CLIController {
 
     //Format: 'command param1 param2 param3 ...'
 
+
+    @Command
+    public String cdb(String[] args)
+    {
+        return createDatabase(args);
+    }
+
     @Command
     public String createDatabase(String[] args)
     {
@@ -33,10 +40,11 @@ public class CLIController {
         {
             if(args[1].equalsIgnoreCase(option)) {
                 DB = DatabaseFactory.newDb(args[0], option);
-                ArrayHelper.addElement(databases, DB);
+                databases = ArrayHelper.addElement(databases, DB);
                 choice = option;
             }
         }
+
         if(!choice.equals("") && DB != null)
             return "Created Database " + args[0] + " with strategy " + choice;
         return "Could not create Database";

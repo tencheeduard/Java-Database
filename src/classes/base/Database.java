@@ -1,6 +1,6 @@
 package src.classes.base;
 
-public class Database {
+public class Database extends Observable {
 
     String name;
     DatabaseStrategy strategy;
@@ -41,4 +41,5 @@ public class Database {
     public Table[] getTables(String tableName){
         return strategy.get(tableName);
     }
+
 }
