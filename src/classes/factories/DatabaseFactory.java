@@ -5,13 +5,12 @@ import src.classes.strategies.ListStrategy;
 
 public class DatabaseFactory {
 
-    public static Database newDb(String string){
-        switch (string){
+    public static Database newDb(String name, String type){
+        switch (type){
             case "List":
-                return new Database(new ListStrategy());
+                return new Database(name, new ListStrategy());
             default:
                 return null;
         }
-
     }
 }
