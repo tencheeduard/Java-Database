@@ -7,8 +7,9 @@ import src.tests.ObserverTest;
 public class App {
     public static void main(String[] args) throws Exception
     {
-        DatabaseFactoryTest.runTests();
+        // Run Tests
         {
+            DatabaseFactoryTest.runTests();
             ObserverTest observerTest = new ObserverTest();
             observerTest.test1();
         }
