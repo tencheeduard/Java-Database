@@ -1,15 +1,28 @@
 package src.classes.base;
 
+import src.classes.annotations.AutoIncrement;
+
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public abstract class Repo<T> {
     protected Class<T> type;
 
-    public boolean add(Object obj)
+    public boolean add(Object obj) throws Exception
     {
         T instance = castToGeneric(obj);
-        if(instance != null && !contains(instance))
+        if(instance instanceof Table table)
+        {
+            for(Field primaryKey: table.primaryKeys)
+            {
+                if(primaryKey.isAnnotationPresent(AutoIncrement.class) && primaryKey.getType() == Integer.class)
+                {
+                    primaryKey.set(table, getMaxIncrement(primaryKey)+1);
+                }
+            }
+        }
+        if(!contains(instance))
             return addToRepo(instance);
         return false;
     }
@@ -28,17 +41,12 @@ public abstract class Repo<T> {
 
     public abstract T getValue(int index);
 
+    public abstract Integer getMaxIncrement(Field field) throws Exception;
+
     public abstract int getSize();
 
     public abstract boolean contains(Object obj);
 
-    protected Repo() {
-    }
-
-    public Repo(Class<T> type)
-    {
-        this.type = type;
-    }
     public Class<?> getType()
     {
         return type;
@@ -49,6 +57,13 @@ public abstract class Repo<T> {
         if(obj.getClass() == type)
             return type.cast(obj);
         return null;
+    }
+
+    protected Repo() {
+    }
+
+    public Repo(Class<T> type) {
+        this.type = type;
     }
 
     @Override

@@ -15,6 +15,12 @@ public abstract class Observable {
             observer.update();
     }
 
+    public void notifyObservers(Object arg)
+    {
+        for(Observer observer: observers)
+            observer.update(arg);
+    }
+
     public void notifyObservers(Object[] args)
     {
         for(Observer observer: observers)

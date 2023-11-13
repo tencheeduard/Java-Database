@@ -1,6 +1,6 @@
 package src.classes.base;
 
-public class Database extends Observable {
+public class Database extends Observable implements Observer {
 
     String name;
     DatabaseStrategy strategy;
@@ -26,7 +26,8 @@ public class Database extends Observable {
         this.strategy = strategy;
     }
 
-    public boolean add(Table table) throws Exception{
+    public boolean add(Table table) throws Exception {
+        notifyObservers(table);
         return strategy.add(table);
     }
 
@@ -42,4 +43,23 @@ public class Database extends Observable {
         return strategy.get(tableName);
     }
 
+    public String getName() { return name; }
+
+    @Override
+    public void update(Object arg) {
+        if(arg instanceof String str)
+            notifyObservers(getTables(str));
+        else if(arg instanceof DatabaseProxy proxy)
+            addObserver(proxy);
+    }
+
+    @Override
+    public void update(Object[] args) {
+
+    }
+
+    @Override
+    public void update() {
+
+    }
 }

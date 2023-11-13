@@ -1,8 +1,10 @@
 package src.classes.repositories;
 
+import src.classes.annotations.AutoIncrement;
 import src.classes.base.Repo;
 import src.classes.base.Table;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +46,25 @@ public class ListRepo<T> extends Repo<T> {
     @Override
     public T getValue(int index) {
         return list.get(index);
+    }
+
+    @Override
+    public Integer getMaxIncrement(Field field) throws Exception
+    {
+        Integer max = -1;
+        if(field.isAnnotationPresent(AutoIncrement.class) && field.getType() == Integer.class)
+        {
+            for (T obj : list)
+                if (obj instanceof Table table)
+                {
+                    Object value = field.get(table);
+                    if(value instanceof Integer i && i > max)
+                        max = i;
+                }
+        }
+        else throw new Exception("Field does not auto-increment");
+
+        return max;
     }
 
     @Override
