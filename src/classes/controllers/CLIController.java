@@ -110,10 +110,9 @@ public class CLIController {
     {
         input = input.replace("-", "");
         String[] strings = input.split(" ");
-        for(int i = 0; i < strings.length; i++) {
+        for(int i = 0; i < strings.length; i++)
             if (strings[i].equals(""))
                 strings = ArrayHelper.removeElement(strings, i--);
-        }
 
         String output = "";
 

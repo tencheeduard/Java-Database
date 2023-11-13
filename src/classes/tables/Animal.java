@@ -6,11 +6,12 @@ import src.classes.base.Table;
 
 public class Animal extends Table {
 
-    public String name;
-
     @AutoIncrement
     @PrimaryKey
     public Integer idAnimal;
+
+    public String name;
+
     public String date;
 
     public Animal() throws Exception {}
