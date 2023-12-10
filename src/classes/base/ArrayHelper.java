@@ -84,4 +84,31 @@ public class ArrayHelper {
         return clone(array, startFrom, endAt);
     }
 
+    public static <S extends Object> S[] except(S[] array, S[] array2)
+    {
+        Class<?> clazz = array.getClass().getComponentType();
+
+        S[] result = (S[]) Array.newInstance(clazz, 0);
+
+        S[] larger;
+        S[] smaller;
+        if(array.length > array2.length) {
+            larger = array;
+            smaller = array2;
+        }
+        else
+        {
+            larger = array2;
+            smaller = array;
+        }
+
+        for(int i = 0; i < larger.length; i++)
+        {
+            if (!contains(smaller, larger[i]))
+                result = addElement(result, larger[i]);
+        }
+
+        return result;
+    }
+
 }

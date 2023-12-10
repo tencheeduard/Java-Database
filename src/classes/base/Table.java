@@ -40,6 +40,11 @@ public class Table {
         return null;
     }
 
+    public Field[] getPrimaryKeys()
+    {
+        return primaryKeys;
+    }
+
     public Object getProperty(Integer index) throws IllegalAccessException
     {
         return getField(index).get(this);

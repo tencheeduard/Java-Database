@@ -1,5 +1,6 @@
 package src.classes.strategies;
 
+import src.classes.base.ArrayHelper;
 import src.classes.base.DatabaseStrategy;
 import src.classes.base.Repo;
 import src.classes.base.Table;
@@ -22,51 +23,67 @@ public class MySQLStrategy implements DatabaseStrategy {
         }
     }
 
+    public Table[] runQuery(String query)
+    {
+        try{
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(query);
+
+            while(result.next())
+            {
+                
+            }
+
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+    }
+
     @Override
     public boolean add(Table table) throws Exception {
+        try {
+            String query = "INSERT INTO " + table.getClass().getSimpleName().toLowerCase() + " (";
 
-        String query = "INSERT INTO " + table.getClass().getSimpleName().toLowerCase() + " (";
+            Field[] fields = ArrayHelper.except(table.getFields(), table.getPrimaryKeys());
 
-        Field[] fields = table.getFields();
+            for (int i = 0; i < fields.length; i++) {
+                query += fields[i].getName().toLowerCase();
+                if (i < fields.length - 1)
+                    query += ", ";
+            }
 
-        for(int i = 0; i < fields.length; i++)
-        {
-            query+=fields[i].getName().toLowerCase();
-            if(i>fields.length-1)
-                query+=", ";
+            query += ")\n\tVALUES (";
+
+            for (int i = 0; i < fields.length; i++) {
+                query += fields[i].get(table);
+                if (i < fields.length - 1)
+                    query += ", ";
+            }
+
+            query += ")";
+
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(query);
+
+            return true;
         }
-
-        query+= ")\n\tVALUES (";
-
-        for(int i = 0; i < fields.length; i++)
-        {
-            query+=fields[i].get(table);
-            if(i>fields.length-1)
-                query+=", ";
+        catch(Exception e) {
+            return false;
         }
-
-        query+= ")";
-
-        System.out.println(query);
-
-        Statement statement = connection.createStatement();
-        //ResultSet resultSet = statement.executeQuery();
-        return false;
     }
 
     @Override
     public boolean remove(Table table) throws Exception {
+
         return false;
+
     }
 
     @Override
     public Table[] get(String name) {
         return new Table[0];
-    }
-
-    @Override
-    public boolean contains(Repo<?> repo) {
-        return false;
     }
 
     @Override

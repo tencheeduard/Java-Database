@@ -90,8 +90,6 @@ public class CLIController {
         if(args.length < 2)
             return "Usage: addTable databaseName tableName";
 
-        args[1] = args[1].toLowerCase();
-
         DatabaseProxy proxy = null;
         for(int i = 0; i < proxies.length; i++)
         {
