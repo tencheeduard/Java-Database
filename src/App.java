@@ -1,11 +1,11 @@
 package src;
 
 import src.classes.controllers.CLIController;
+import src.classes.tables.Animal;
 import src.tests.DatabaseFactoryTest;
 import src.tests.ObserverTest;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.lang.reflect.Field;
 
 public class App {
     public static void main(String[] args) throws Exception
@@ -17,7 +17,31 @@ public class App {
             observerTest.test1();
         }
 
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/petshop", "root", "edii");
+        Animal table = new Animal("Pomel", "2004-01-01");
+
+        String query = "INSERT INTO " + table.getClass().getSimpleName().toLowerCase() + " (";
+
+        Field[] fields = table.getFields();
+
+        for(int i = 0; i < fields.length; i++)
+        {
+            query+=fields[i].getName().toLowerCase() + ' ';
+            if(i>fields.length-1)
+                query+=", ";
+        }
+
+        query+= ")\n\tVALUES (";
+
+        for(int i = 0; i < fields.length; i++)
+        {
+            query+=fields[i].get(table);
+            if(i>fields.length-1)
+                query+=", ";
+        }
+
+        query+= ")";
+
+        System.out.println(query);
 
         CLIController cli = new CLIController();
 

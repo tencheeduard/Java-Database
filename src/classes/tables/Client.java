@@ -4,7 +4,7 @@ import src.classes.annotations.AutoIncrement;
 import src.classes.annotations.PrimaryKey;
 import src.classes.base.Table;
 
-public class client extends Table {
+public class Client extends Table {
 
     public String name;
     public String lastName;
@@ -14,9 +14,9 @@ public class client extends Table {
     @PrimaryKey
     public Integer idClient;
 
-    public client() throws Exception {}
+    public Client() throws Exception {}
 
-    public client(String name, String lastName, String email) throws Exception {
+    public Client(String name, String lastName, String email) throws Exception {
         this.name=name;
         this.lastName=lastName;
         this.email=email;
