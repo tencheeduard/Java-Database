@@ -8,6 +8,8 @@ import src.classes.base.DatabaseProxy;
 import src.classes.factories.ProxyFactory;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class CLIController {
@@ -34,19 +36,18 @@ public class CLIController {
     public String createDatabase(String[] args)
     {
 
-        // Format: {name, strategy}
+        // Format: {name, strategy, args}
         if(args.length < 2)
             return "Usage: createdatabase name strategy";
 
-
-        String[] options = {"List"};
+        String[] options = ProxyFactory.options();
 
         String choice = "";
         DatabaseProxy proxy = null;
         for(String option: options)
         {
             if(args[1].equalsIgnoreCase(option)) {
-                proxy = ProxyFactory.create(args[0], option);
+                proxy = ProxyFactory.create(args[0], option, ArrayHelper.clone(args,2));
                 proxies = ArrayHelper.addElement(proxies, proxy);
                 choice = option;
             }
@@ -88,6 +89,8 @@ public class CLIController {
         // Format: {databaseName, tableName}
         if(args.length < 2)
             return "Usage: addTable databaseName tableName";
+
+        args[1] = args[1].toLowerCase();
 
         DatabaseProxy proxy = null;
         for(int i = 0; i < proxies.length; i++)

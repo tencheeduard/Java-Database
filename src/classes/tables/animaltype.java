@@ -4,20 +4,16 @@ import src.classes.annotations.AutoIncrement;
 import src.classes.annotations.PrimaryKey;
 import src.classes.base.Table;
 
-public class Animal extends Table {
+public class animaltype extends Table {
 
     @AutoIncrement
     @PrimaryKey
-    public Integer idAnimal;
-
+    public Integer idType;
     public String name;
 
-    public String date;
+    public animaltype() throws Exception {}
 
-    public Animal() throws Exception {}
-
-    public Animal(String name, String date) throws Exception {
+    public animaltype(String name) throws Exception {
         this.name=name;
-        this.date=date;
     }
 }

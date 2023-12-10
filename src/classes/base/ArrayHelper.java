@@ -59,4 +59,29 @@ public class ArrayHelper {
         return false;
     }
 
+    public static <S extends Object> S[] clone(S[] array, int startFrom, int EndAt)
+    {
+        Class<?> clazz = array.getClass().getComponentType();
+
+        if(startFrom < 0)
+            startFrom = 0;
+
+        if(EndAt > array.length - 1)
+            EndAt = array.length - 1;
+
+        S[] result = (S[]) Array.newInstance(clazz, EndAt-startFrom+1);
+
+        int index = 0;
+        for(int i = startFrom; i <= EndAt; i++)
+            result[index++] = array[i];
+
+        return result;
+    }
+
+    public static <S extends Object> S[] clone(S[] array, int startFrom)
+    {
+        int endAt = array.length;
+        return clone(array, startFrom, endAt);
+    }
+
 }

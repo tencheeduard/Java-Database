@@ -4,11 +4,23 @@ import src.classes.base.DatabaseStrategy;
 import src.classes.base.Repo;
 import src.classes.base.Table;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 public class MySQLStrategy implements DatabaseStrategy {
 
-    public MySQLStrategy()
-    {
+    Connection connection;
 
+    public MySQLStrategy(String address, String port, String dbName, String username, String password)
+    {
+        try {
+            connection = DriverManager.getConnection("jdbc:mysql://" + address + ":" + port + "/" + dbName, username, password);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
     }
 
     @Override

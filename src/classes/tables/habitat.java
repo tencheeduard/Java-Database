@@ -4,7 +4,7 @@ import src.classes.annotations.AutoIncrement;
 import src.classes.annotations.PrimaryKey;
 import src.classes.base.Table;
 
-public class Habitat extends Table {
+public class habitat extends Table {
 
     @AutoIncrement
     @PrimaryKey
@@ -12,8 +12,8 @@ public class Habitat extends Table {
 
     public Integer idType;
 
-    public Habitat() throws Exception {}
-    public Habitat(Integer idType) throws Exception {
+    public habitat() throws Exception {}
+    public habitat(Integer idType) throws Exception {
         this.idType=idType;
     }
 }

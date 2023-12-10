@@ -26,6 +26,8 @@ public class DatabaseProxy extends Observable implements Observer {
         return database.getName();
     }
 
+    public DatabaseStrategy getStrategy() { return database.getStrategy(); }
+
     public String queryGetTables(String tableName)
     {
         Table[] tables = database.getTables(tableName);
