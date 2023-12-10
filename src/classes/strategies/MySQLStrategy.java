@@ -29,9 +29,10 @@ public class MySQLStrategy implements DatabaseStrategy {
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery(query);
 
+            String tableName = result.getMetaData().getTableName(1);
+
             while(result.next())
             {
-                
             }
 
         }
