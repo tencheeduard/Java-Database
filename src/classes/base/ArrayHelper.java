@@ -1,6 +1,7 @@
 package src.classes.base;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
 
 public class ArrayHelper {
 
@@ -107,6 +108,16 @@ public class ArrayHelper {
             if (!contains(smaller, larger[i]))
                 result = addElement(result, larger[i]);
         }
+
+        return result;
+    }
+
+    public static <S extends Object> S[] concatenate(S[] array, S[] array2)
+    {
+        S[] result = ArrayHelper.clone(array, 0);
+
+        for(int i = 0; i < array2.length; i++)
+            result = ArrayHelper.addElement(result, array2[i]);
 
         return result;
     }
