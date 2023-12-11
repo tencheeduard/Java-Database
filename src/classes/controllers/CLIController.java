@@ -41,8 +41,8 @@ public class CLIController {
         if(proxy==null)
             return "Could not find database with name " + args[0];
 
-        String query ="query";
-        for (int i = 0; i < args.length; i++) {
+        String query ="";
+        for (int i = 1; i < args.length; i++) {
             query += args[i];
             if (i < args.length - 1)
                 query += " ";
