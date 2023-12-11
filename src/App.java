@@ -27,9 +27,6 @@ public class App {
 
         cli.invoke("cdb db mysql localhost 3306 petshop root " + password);
 
-        MySQLStrategy strategy = new MySQLStrategy("localhost", "3306", "petshop", "root", "edii");
-
-        System.out.println(strategy.getQueryResults("SELECT idanimal as 'lol' FROM Animal"));
 
         cli.start();
 
