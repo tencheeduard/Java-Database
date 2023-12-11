@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/classes/classes.iml" filepath="$PROJECT_DIR$/classes/classes.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/maplab2nospring.iml" filepath="$PROJECT_DIR$/.idea/maplab2nospring.iml" />
     </modules>
   </component>
 </project>
