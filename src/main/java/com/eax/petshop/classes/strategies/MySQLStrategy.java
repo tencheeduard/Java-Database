@@ -38,8 +38,7 @@ public class MySQLStrategy implements DatabaseStrategy {
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery(query);
 
-
-            String tableName = "src.classes.tables." + result.getMetaData().getTableName(1).toLowerCase();
+            String tableName = "com.eax.petshop.classes.tables." + result.getMetaData().getTableName(1).toLowerCase();
 
             int columnCount = result.getMetaData().getColumnCount();
 
@@ -69,35 +68,6 @@ public class MySQLStrategy implements DatabaseStrategy {
         }
     }
 
-    public String getQueryResults(String query)
-    {
-        try {
-            String result = "";
-
-            Statement statement = connection.createStatement();
-            ResultSet results = statement.executeQuery(query);
-
-            ResultSetMetaData metaData = results.getMetaData();
-
-            for(int i = 1; i <= metaData.getColumnCount(); i++)
-            {
-                result+= metaData.getColumnLabel(i) + " | ";
-            }
-
-            while(results.next())
-            {
-                result+='\n';
-                for(int i = 1; i <= metaData.getColumnCount(); i++)
-                    result+= results.getObject(i) + " | ";
-            }
-
-            return result;
-        }
-        catch (Exception e)
-        {
-            return e.toString();
-        }
-    }
     @Override
     public boolean add(Table table) throws Exception {
         try {
@@ -133,24 +103,9 @@ public class MySQLStrategy implements DatabaseStrategy {
 
     @Override
     public boolean remove(Table table) throws Exception {
-        try {
-            Field[] primaryKeys = table.getPrimaryKeys();
-            String query = "DELETE FROM " + table.getClass().getSimpleName().toLowerCase() + " WHERE ";
-            for (int i = 0; i < primaryKeys.length; i++) {
-                query += primaryKeys[i].getName().toLowerCase();
-                query += "=";
-                query += primaryKeys[i].get(table);
-                if (i < primaryKeys.length - 1)
-                    query += " AND ";
-            }
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(query);
 
-            return true;
-        }
-        catch(Exception e) {
-            return false;
-        }
+        return false;
+
     }
 
     @Override

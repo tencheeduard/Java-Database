@@ -43,7 +43,7 @@ public class DatabaseProxy extends Observable implements Observer {
 
     public void addTable(String tableName) throws Exception
     {
-        Class<?> clazz = Class.forName("src.classes.tables." + tableName);
+        Class<?> clazz = Class.forName("com.eax.petshop.classes." + tableName);
 
         if(clazz.getDeclaredConstructor().newInstance() instanceof Table table)
         {

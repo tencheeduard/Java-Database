@@ -6,7 +6,6 @@ import com.eax.petshop.classes.base.ArrayHelper;
 import com.eax.petshop.classes.base.CacheTriplet;
 import com.eax.petshop.classes.base.DatabaseProxy;
 import com.eax.petshop.classes.factories.ProxyFactory;
-import com.eax.petshop.classes.strategies.MySQLStrategy;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -26,32 +25,6 @@ public class CLIController {
 
     //Format: 'command param1 param2 param3 ...'
 
-    @Command
-    public String execQuery(String[] args){
-
-        DatabaseProxy proxy = null;
-        for(int i = 0; i < proxies.length; i++)
-        {
-            if(proxies[i].getDatabaseName().equalsIgnoreCase(args[0]));
-            {
-                proxy = proxies[i];
-                break;
-            }
-        }
-        if(proxy==null)
-            return "Could not find database with name " + args[0];
-
-        String query ="";
-        for (int i = 1; i < args.length; i++) {
-            query += args[i];
-            if (i < args.length - 1)
-                query += " ";
-        }
-
-        if(proxy.database.getStrategy() instanceof MySQLStrategy sqlstrat)
-            return sqlstrat.getQueryResults(query);
-        return "Could not create Query";
-    }
 
     @Command
     public String cdb(String[] args)
