@@ -12,7 +12,7 @@ import java.util.List;
 
 public class MySQLStrategy implements DatabaseStrategy {
 
-    Connection connection;
+    public Connection connection;
 
     String dbName;
 
@@ -65,6 +65,36 @@ public class MySQLStrategy implements DatabaseStrategy {
         catch (Exception e)
         {
             return null;
+        }
+    }
+
+    public String getQueryResults(String query)
+    {
+        try {
+            String result = "";
+
+            Statement statement = connection.createStatement();
+            ResultSet results = statement.executeQuery(query);
+
+            ResultSetMetaData metaData = results.getMetaData();
+
+            for(int i = 1; i <= metaData.getColumnCount(); i++)
+            {
+                result+= metaData.getColumnLabel(i) + " | ";
+            }
+
+            while(results.next())
+            {
+                result+='\n';
+                for(int i = 1; i <= metaData.getColumnCount(); i++)
+                    result+= results.getObject(i) + " | ";
+            }
+
+            return result;
+        }
+        catch (Exception e)
+        {
+            return e.toString();
         }
     }
 

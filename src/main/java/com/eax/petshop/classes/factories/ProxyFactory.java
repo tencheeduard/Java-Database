@@ -3,6 +3,7 @@ package com.eax.petshop.classes.factories;
 
 import com.eax.petshop.classes.base.Database;
 import com.eax.petshop.classes.base.DatabaseProxy;
+import com.eax.petshop.classes.strategies.ListSQLAdapter;
 import com.eax.petshop.classes.strategies.ListStrategy;
 import com.eax.petshop.classes.strategies.MySQLStrategy;
 
@@ -12,7 +13,7 @@ public class ProxyFactory {
 
     public static String[] options()
     {
-        String[] list = {"List", "MySQL"};
+        String[] list = {"List", "MySQL", "ListSQL"};
         return list;
     }
 
@@ -24,6 +25,15 @@ public class ProxyFactory {
             case "MySQL":
                 Database dbsql = new Database(name, new MySQLStrategy(args[0], args[1], args[2], args[3], args[4]));
                 return new DatabaseProxy(dbsql);
+            case "ListSQL":
+                try {
+                    Database dbsqlist = new Database(name, new ListSQLAdapter(new MySQLStrategy(args[0], args[1], args[2], args[3], args[4])));
+                    return new DatabaseProxy(dbsqlist);
+                }
+                catch (Exception e)
+                {
+                    return null;
+                }
             default:
                 return null;
         }
