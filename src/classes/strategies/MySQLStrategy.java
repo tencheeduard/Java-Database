@@ -77,9 +77,24 @@ public class MySQLStrategy implements DatabaseStrategy {
 
     @Override
     public boolean remove(Table table) throws Exception {
+        try {
+            Field[] primaryKeys = table.getPrimaryKeys();
+            String query = "DELETE FROM " + table.getClass().getSimpleName().toLowerCase() + " WHERE ";
+            for (int i = 0; i < primaryKeys.length; i++) {
+                query += primaryKeys[i].getName().toLowerCase();
+                query += "=";
+                query += primaryKeys[i].get(table);
+                if (i < primaryKeys.length - 1)
+                    query += " AND ";
+            }
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(query);
 
-        return false;
-
+            return true;
+        }
+        catch(Exception e) {
+            return false;
+        }
     }
 
     @Override
