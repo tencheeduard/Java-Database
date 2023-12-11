@@ -39,6 +39,7 @@ public class MySQLStrategy implements DatabaseStrategy {
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery(query);
 
+
             String tableName = "src.classes.tables." + result.getMetaData().getTableName(1).toLowerCase();
 
             int columnCount = result.getMetaData().getColumnCount();
@@ -69,6 +70,35 @@ public class MySQLStrategy implements DatabaseStrategy {
         }
     }
 
+    public String getQueryResults(String query)
+    {
+        try {
+            String result = "";
+
+            Statement statement = connection.createStatement();
+            ResultSet results = statement.executeQuery(query);
+
+            ResultSetMetaData metaData = results.getMetaData();
+
+            for(int i = 1; i <= metaData.getColumnCount(); i++)
+            {
+                result+= metaData.getColumnLabel(i) + " | ";
+            }
+
+            while(results.next())
+            {
+                result+='\n';
+                for(int i = 1; i <= metaData.getColumnCount(); i++)
+                    result+= results.getObject(i) + " | ";
+            }
+
+            return result;
+        }
+        catch (Exception e)
+        {
+            return e.toString();
+        }
+    }
     @Override
     public boolean add(Table table) throws Exception {
         try {
