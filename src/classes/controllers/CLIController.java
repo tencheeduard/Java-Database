@@ -107,6 +107,30 @@ public class CLIController {
         return "Added Table";
     }
 
+    @Command
+    public String hasTable(String[] args) throws Exception
+    {
+        // Format: {databaseName, tableName}
+        if(args.length < 2)
+            return "Usage: hasTable databaseName tableName";
+
+        DatabaseProxy proxy = null;
+        for(int i = 0; i < proxies.length; i++)
+        {
+            if(proxies[i].getDatabaseName().equalsIgnoreCase(args[0]));
+            {
+                proxy = proxies[i];
+                break;
+            }
+        }
+        if(proxy==null)
+            return "Could not find database with name " + args[0];
+
+        if(proxy.hasTable(args[1]))
+            return "True";
+        else return "False";
+    }
+
     public void invoke(String input) throws Exception
     {
         input = input.replace("-", "");

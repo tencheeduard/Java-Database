@@ -33,7 +33,7 @@ public class Table {
         Field[] fields = getFields();
 
         for (Field field : fields) {
-            if (field.getName().equals(name))
+            if (field.getName().equalsIgnoreCase(name))
                 return field;
         }
 

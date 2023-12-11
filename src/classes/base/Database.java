@@ -36,10 +36,6 @@ public class Database extends Observable implements Observer {
         return strategy.remove(table);
     }
 
-    public boolean contains(Repo<?> repo){
-        return strategy.contains(repo);
-    }
-
     public Table[] getTables(){
         return strategy.getAll();
     }
