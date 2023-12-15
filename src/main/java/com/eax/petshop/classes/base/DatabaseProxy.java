@@ -1,20 +1,22 @@
 package com.eax.petshop.classes.base;
 
+import java.util.Arrays;
+
 public class DatabaseProxy extends Observable implements Observer {
 
 
-    public CacheTriplet[] cachedData;
+    public CacheData[] cachedData;
 
     public Database database;
 
     public DatabaseProxy()
     {
-        cachedData = new CacheTriplet[0];
+        cachedData = new CacheData[0];
     }
 
     public DatabaseProxy(Database database)
     {
-        cachedData = new CacheTriplet[0];
+        cachedData = new CacheData[0];
         this.database = database;
         addObserver(database);
         notifyObservers(this);
@@ -94,28 +96,17 @@ public class DatabaseProxy extends Observable implements Observer {
         database.add(table);
     }
 
-    public CacheTriplet getCachedData(String[] input)
+    public CacheData getCachedData(String tableName, String function, String[] parameters)
     {
-        for(CacheTriplet data: cachedData)
-        {
-            if(data.input.length == input.length)
-            {
-                boolean equal = true;
-                for(int i = 0; i < data.input.length; i++)
-                {
-                    if(!data.input[i].equalsIgnoreCase(input[i]))
-                        equal = false;
-                }
-                if(equal)
-                    return data;
-            }
-        }
+        for(CacheData data: cachedData)
+            if(data.table.equals(tableName) && data.function.equals(function) && Arrays.equals(data.parameters,parameters))
+                return data;
         return null;
     }
 
-    public void cache(String tableName, String[] input, String output)
+    public void cache(String tableName, String function, String[] parameters, String output)
     {
-        CacheTriplet data = new CacheTriplet(tableName, input, output);
+        CacheData data = new CacheData(tableName, function, parameters, output);
 
         cachedData = ArrayHelper.addElement(cachedData, data);
     }

@@ -1,16 +1,9 @@
 package com.eax.petshop;
 
-import com.eax.petshop.classes.base.CacheTriplet;
 import com.eax.petshop.classes.base.DatabaseProxy;
 import com.eax.petshop.classes.controllers.CLIController;
-import com.eax.petshop.classes.controllers.RESTController;
 import com.eax.petshop.classes.factories.ProxyFactory;
-import com.eax.petshop.classes.tables.animal;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
 import java.util.Scanner;

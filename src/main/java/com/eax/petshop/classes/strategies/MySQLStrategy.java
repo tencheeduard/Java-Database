@@ -29,7 +29,7 @@ public class MySQLStrategy implements DatabaseStrategy {
         }
     }
 
-    public Table[] getFromQuery(String query)
+    public Table[] getTablesFromQuery(String query)
     {
         try{
 
@@ -68,7 +68,7 @@ public class MySQLStrategy implements DatabaseStrategy {
         }
     }
 
-    public String getQueryResults(String query)
+    public String query(String query)
     {
         try {
             String result = "";
@@ -79,9 +79,7 @@ public class MySQLStrategy implements DatabaseStrategy {
             ResultSetMetaData metaData = results.getMetaData();
 
             for(int i = 1; i <= metaData.getColumnCount(); i++)
-            {
                 result+= metaData.getColumnLabel(i) + " | ";
-            }
 
             while(results.next())
             {
@@ -140,7 +138,7 @@ public class MySQLStrategy implements DatabaseStrategy {
 
     @Override
     public Table[] get(String name) {
-        return getFromQuery("SELECT * FROM " + name);
+        return getTablesFromQuery("SELECT * FROM " + name);
     }
 
     @Override
@@ -160,7 +158,7 @@ public class MySQLStrategy implements DatabaseStrategy {
 
             for(String str: tables)
             {
-                Table[] queryResult = getFromQuery("SELECT * FROM " + str);
+                Table[] queryResult = getTablesFromQuery("SELECT * FROM " + str);
                 resultList.addAll(Arrays.asList(queryResult));
             }
 

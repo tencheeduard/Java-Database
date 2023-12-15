@@ -1,6 +1,5 @@
 package com.eax.petshop.classes.controllers;
 
-import com.eax.petshop.classes.base.ArrayHelper;
 import com.eax.petshop.classes.base.DatabaseProxy;
 import com.eax.petshop.classes.factories.ProxyFactory;
 import com.eax.petshop.classes.strategies.MySQLStrategy;
@@ -72,7 +71,7 @@ public class RESTController {
             @RequestParam(value = "query", defaultValue = "show tables from petshop;") String query
     ) throws Exception {
         if(proxy.database.getStrategy() instanceof MySQLStrategy sqlstrat)
-            return sqlstrat.getQueryResults(query);
+            return sqlstrat.query(query);
         return "Could not create Query";
     }
 

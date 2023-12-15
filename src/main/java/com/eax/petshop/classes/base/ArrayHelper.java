@@ -66,6 +66,8 @@ public class ArrayHelper {
 
         if(startFrom < 0)
             startFrom = 0;
+        else if(startFrom > array.length - 1)
+            return (S[]) Array.newInstance(clazz, 0);
 
         if(EndAt > array.length - 1)
             EndAt = array.length - 1;

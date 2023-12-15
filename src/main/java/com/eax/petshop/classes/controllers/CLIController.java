@@ -1,9 +1,9 @@
 package com.eax.petshop.classes.controllers;
 
 import com.eax.petshop.classes.annotations.Cache;
-import com.eax.petshop.classes.annotations.Command;
+import com.eax.petshop.classes.annotations.CLICommand;
 import com.eax.petshop.classes.base.ArrayHelper;
-import com.eax.petshop.classes.base.CacheTriplet;
+import com.eax.petshop.classes.base.CacheData;
 import com.eax.petshop.classes.base.DatabaseProxy;
 import com.eax.petshop.classes.factories.ProxyFactory;
 import com.eax.petshop.classes.strategies.MySQLStrategy;
@@ -25,7 +25,7 @@ public class CLIController {
     //Format: 'command param1 param2 param3 ...'
 
 
-    @Command
+    @CLICommand
     public String execQuery(String[] args){
 
         DatabaseProxy proxy = null;
@@ -48,23 +48,23 @@ public class CLIController {
         }
 
         if(proxy.database.getStrategy() instanceof MySQLStrategy sqlstrat)
-            return sqlstrat.getQueryResults(query);
+            return sqlstrat.query(query);
         return "Could not create Query";
     }
 
-    @Command
+    @CLICommand
     public String cdb(String[] args)
     {
         return createDatabase(args);
     }
 
-    @Command
+    @CLICommand
     public String createDatabase(String[] args)
     {
 
         // Format: {name, strategy, args}
         if(args.length < 2)
-            return "Usage: createdatabase name strategy";
+            return "Usage: createdatabase name strategy extraArgs...";
 
         String[] options = ProxyFactory.options();
 
@@ -84,7 +84,7 @@ public class CLIController {
         return "Could not create Database";
     }
 
-    @Command
+    @CLICommand
     @Cache
     public String table(String[] args)
     {
@@ -109,7 +109,7 @@ public class CLIController {
         return proxy.getTablesByName(args[1]);
     }
 
-    @Command
+    @CLICommand
     public String addTable(String[] args) throws Exception
     {
         // Format: {databaseName, tableName}
@@ -133,7 +133,7 @@ public class CLIController {
         return "Added Table";
     }
 
-    @Command
+    @CLICommand
     public String clearCache(String[] args)
     {
         DatabaseProxy proxy = null;
@@ -148,12 +148,12 @@ public class CLIController {
         if(proxy==null)
             return "Could not find database with name " + args[0];
 
-        proxy.cachedData = new CacheTriplet[0];
+        proxy.cachedData = new CacheData[0];
 
         return "deleted";
     }
 
-    @Command
+    @CLICommand
     public String hasTable(String[] args) throws Exception
     {
         // Format: {databaseName, tableName}
@@ -194,7 +194,7 @@ public class CLIController {
         Method[] methods = getClass().getDeclaredMethods();
         for (Method method : methods)
             if (method.getName().equalsIgnoreCase(strings[0]) &&
-                    method.isAnnotationPresent(Command.class) &&
+                    method.isAnnotationPresent(CLICommand.class) &&
                     method.getReturnType() == String.class)
             {
                 boolean gotOutput = false;
@@ -202,7 +202,7 @@ public class CLIController {
                 // Check for cached output if method is cacheable
                 if(method.isAnnotationPresent(Cache.class))
                     for (DatabaseProxy proxy : proxies) {
-                        CacheTriplet cachedData = proxy.getCachedData(strings);
+                        CacheData cachedData = proxy.getCachedData(strings);
                         if (cachedData != null) {
                             output = cachedData.output;
                             gotOutput = true;
