@@ -28,7 +28,8 @@ public class DatabaseProxy extends Observable implements Observer {
 
     public DatabaseStrategy getStrategy() { return database.getStrategy(); }
 
-    public String queryGetTables(String tableName)
+
+    public String getTablesByName(String tableName)
     {
         Table[] tables = database.getTables(tableName);
         if(tables.length == 0)
@@ -49,6 +50,48 @@ public class DatabaseProxy extends Observable implements Observer {
         {
             database.add(table);
         }
+    }
+
+    public void addTable(String tableName, String... params) throws Exception
+    {
+        Class<?> clazz = Class.forName("com.eax.petshop.classes.tables." + tableName);
+
+        Table table;
+        if(clazz.getDeclaredConstructor().newInstance() instanceof Table t)
+            table = t;
+        else
+            throw new Exception("Table with that name does not exist.");
+
+        boolean indexed = false;
+        for(String param: params)
+            if(!param.contains("=")) {
+                indexed = true;
+                break;
+            }
+
+        if(indexed)
+            for(int i = 0; i < params.length; i++)
+            {
+                Object val = params[i];
+                if(table.getField(i).getType() != String.class)
+                    val = StringConverter.convert(params[i], table.getField(i).getType());
+
+                table.setProperty(i, val);
+            }
+        else
+            for(String param: params)
+            {
+                String[] splitString = param.split("=");
+
+                Object val = splitString[1];
+                if(table.getField(splitString[0]).getType() != String.class)
+                    val = StringConverter.convert(splitString[1], table.getField(splitString[0]).getType());
+
+                table.setProperty(splitString[0], val);
+            }
+
+
+        database.add(table);
     }
 
     public CacheTriplet getCachedData(String[] input)

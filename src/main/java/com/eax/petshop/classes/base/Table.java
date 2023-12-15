@@ -73,11 +73,9 @@ public class Table {
         Field property = getField(name);
 
         if(value.getClass().equals(property.getType()))
-        {
             property.set(this, value);
-        }
         else
-            throw new Exception("Value does not match the Field");
+            throw new Exception("Value " + value.toString() + "does not match the Field " + name);
     }
 
     @Override
@@ -154,15 +152,27 @@ public class Table {
     {
         String primaryKeysStr = "";
 
-        for(Field i: primaryKeys)
+        Field[] fields = getFields();
+
+        for(Field primaryKey: primaryKeys)
         {
             try {
-                primaryKeysStr += i.getName() + "(" + i.getType().getSimpleName() + ")" + " = " + i.get(this) + ", ";
+                primaryKeysStr += primaryKey.getName() + "(" + primaryKey.getType().getSimpleName() + ")" + " = " + primaryKey.get(this) + ", ";
             }
             catch (IllegalAccessException e) { }
         }
 
-        return this.getClass().getSimpleName() + " with Primary Keys: " + primaryKeysStr;
+        String columnsStr = "";
+
+        for(Field field: fields)
+        {
+            try {
+                columnsStr += field.getName() + "(" + field.getType().getSimpleName() + ")" + " = " + field.get(this) + ", ";
+            }
+            catch (IllegalAccessException e) { }
+        }
+
+        return this.getClass().getSimpleName() + " with Primary Keys: " + primaryKeysStr + "Fields: " + columnsStr;
     }
 
 }

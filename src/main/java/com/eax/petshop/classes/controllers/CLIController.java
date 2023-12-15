@@ -9,8 +9,6 @@ import com.eax.petshop.classes.factories.ProxyFactory;
 import com.eax.petshop.classes.strategies.MySQLStrategy;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class CLIController {
@@ -108,7 +106,7 @@ public class CLIController {
 
 
 
-        return proxy.queryGetTables(args[1]);
+        return proxy.getTablesByName(args[1]);
     }
 
     @Command
@@ -133,6 +131,26 @@ public class CLIController {
         proxy.addTable(args[1]);
 
         return "Added Table";
+    }
+
+    @Command
+    public String clearCache(String[] args)
+    {
+        DatabaseProxy proxy = null;
+        for(int i = 0; i < proxies.length; i++)
+        {
+            if(proxies[i].getDatabaseName().equalsIgnoreCase(args[0]))
+            {
+                proxy = proxies[i];
+                break;
+            }
+        }
+        if(proxy==null)
+            return "Could not find database with name " + args[0];
+
+        proxy.cachedData = new CacheTriplet[0];
+
+        return "deleted";
     }
 
     @Command
