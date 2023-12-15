@@ -13,7 +13,7 @@ public class Database extends Observable implements Observer {
     public Database(String name, DatabaseStrategy strategy)
     {
         this.name = name;
-        this.strategy=strategy;
+        this.strategy = strategy;
     }
 
     public DatabaseStrategy getStrategy()

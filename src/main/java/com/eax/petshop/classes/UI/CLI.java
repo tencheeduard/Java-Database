@@ -16,6 +16,12 @@ public class CLI {
 
     boolean stop;
 
+    public int exitCode;
+
+    public boolean printStackTrace = true;
+
+
+
     public CLI(Controller controller)
     {
         this.controller = controller;
@@ -23,7 +29,7 @@ public class CLI {
 
 
     // Base Invoke Command
-    public void invoke(String input) throws Exception
+    public void invoke(String input)
     {
         input = input.replace("-", "");
         String[] strings = input.split(" ");
@@ -33,19 +39,27 @@ public class CLI {
 
         String output = "";
 
-        Method[] methods = getClass().getDeclaredMethods();
-        for (Method method : methods)
-            if (method.getName().equalsIgnoreCase(strings[0]) &&
-                    method.isAnnotationPresent(CLICommand.class) &&
-                    method.getReturnType() == String.class)
-                output = (String) method.invoke(this, (Object) ArrayHelper.removeElement(strings, 0));
+        try {
+            Method[] methods = getClass().getDeclaredMethods();
+            for (Method method : methods)
+                if (method.getName().equalsIgnoreCase(strings[0]) &&
+                        method.isAnnotationPresent(CLICommand.class) &&
+                        method.getReturnType() == String.class)
+                    output = (String) method.invoke(this, (Object) ArrayHelper.removeElement(strings, 0));
 
-        System.out.println(output);
+            System.out.println(output);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Could not invoke command");
+            if(printStackTrace)
+                e.printStackTrace();
+        }
     }
 
 
     // Start the CLI
-    public void start() throws Exception{
+    public void start(){
         Scanner scanner;
         while(!stop)
         {
@@ -55,13 +69,39 @@ public class CLI {
         }
     }
 
+    @CLICommand
+    public String tgs(String[] args)
+    {
+        return toggleStackTrace(args);
+    }
 
     @CLICommand
     public String exit(String[] args)
     {
         stop = true;
-        return "Exiting CLI...";
+        if(args.length > 0)
+            exitCode = Integer.parseInt(args[0]);
+        else exitCode = 0;
+        return "Exiting CLI with code " + exitCode + "...";
     }
+
+    @CLICommand
+    public String toggleStackTrace(String[] args)
+    {
+        if(args.length > 0) {
+            if (args[0].equalsIgnoreCase("true") || args[0].equalsIgnoreCase("1"))
+                printStackTrace = true;
+            else if (args[0].equalsIgnoreCase("false") || args[0].equalsIgnoreCase("0"))
+                printStackTrace = false;
+        }
+        else printStackTrace = !printStackTrace;
+        if(printStackTrace)
+            return "Now printing full Stack Trace";
+        else
+            return "No longer printing full Stack Trace";
+    }
+
+
 
 
     // Commands

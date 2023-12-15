@@ -1,8 +1,8 @@
 package com.eax.petshop;
 
 import com.eax.petshop.classes.UI.CLI;
+import com.eax.petshop.classes.UI.REST;
 import com.eax.petshop.classes.controllers.Controller;
-import com.eax.petshop.classes.controllers.RESTController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -23,8 +23,12 @@ public class PetshopApplication {
 
 		cli.start();
 
-		RESTController restController;
-		SpringApplication.run(PetshopApplication.class, args);
+		if(cli.exitCode == 1)
+		{
+			REST rest = new REST();
+			rest.setController(controller);
+			SpringApplication.run(PetshopApplication.class, args);
+		}
 	}
 
 }
