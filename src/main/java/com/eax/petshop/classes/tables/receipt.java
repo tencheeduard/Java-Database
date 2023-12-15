@@ -14,8 +14,4 @@ public class receipt extends Table {
     public String date;
 
     public receipt() throws Exception {}
-    public receipt(Integer idClient, String date) throws Exception {
-        this.idClient=idClient;
-        this.date=date;
-    }
 }

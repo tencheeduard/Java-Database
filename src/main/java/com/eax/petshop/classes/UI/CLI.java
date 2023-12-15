@@ -14,6 +14,8 @@ public class CLI {
 
     Controller controller;
 
+    boolean stop;
+
     public CLI(Controller controller)
     {
         this.controller = controller;
@@ -45,12 +47,20 @@ public class CLI {
     // Start the CLI
     public void start() throws Exception{
         Scanner scanner;
-        while(true)
+        while(!stop)
         {
             scanner = new Scanner(System.in);
             String input = scanner.nextLine();
             invoke(input);
         }
+    }
+
+
+    @CLICommand
+    public String exit(String[] args)
+    {
+        stop = true;
+        return "Exiting CLI...";
     }
 
 

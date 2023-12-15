@@ -112,7 +112,11 @@ public class MySQLStrategy implements DatabaseStrategy {
             query += ")\n\tVALUES (";
 
             for (int i = 0; i < fields.length; i++) {
-                query += fields[i].get(table);
+                Object value = fields[i].get(table);
+                if(value != null)
+                    query += "'" + fields[i].get(table) + "'";
+                else
+                    query += fields[i].get(table);
                 if (i < fields.length - 1)
                     query += ", ";
             }

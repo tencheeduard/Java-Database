@@ -12,9 +12,6 @@ public class animaltype extends Table {
     public Integer idType;
     public String name;
 
-    public animaltype() throws Exception {}
-
-    public animaltype(String name) throws Exception {
-        this.name=name;
+    public animaltype() throws Exception {
     }
 }

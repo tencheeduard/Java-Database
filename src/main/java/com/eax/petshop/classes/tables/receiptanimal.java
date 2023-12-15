@@ -13,10 +13,4 @@ public class receiptanimal extends Table {
 
 
     public receiptanimal() throws Exception {}
-    public receiptanimal(Integer idReceipt, Integer idAnimal, Integer price) throws Exception {
-        this.idAnimal=idAnimal;
-        this.idReceipt=idReceipt;
-        this.price=price;
-
-    }
 }

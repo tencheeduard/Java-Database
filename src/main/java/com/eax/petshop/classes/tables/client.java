@@ -16,10 +16,4 @@ public class client extends Table {
     public Integer idClient;
 
     public client() throws Exception {}
-
-    public client(String name, String lastName, String email) throws Exception {
-        this.name=name;
-        this.lastName=lastName;
-        this.email=email;
-    }
 }

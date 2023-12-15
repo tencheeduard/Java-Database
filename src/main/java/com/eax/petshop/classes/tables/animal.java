@@ -15,9 +15,4 @@ public class animal extends Table {
     public String date;
 
     public animal() throws Exception {}
-
-    public animal(String name, String date) throws Exception {
-        this.name=name;
-        this.date=date;
-    }
 }

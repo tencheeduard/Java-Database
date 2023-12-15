@@ -1,6 +1,7 @@
 package com.eax.petshop.classes.controllers;
 
 import com.eax.petshop.classes.base.ArrayHelper;
+import com.eax.petshop.classes.base.CacheData;
 import com.eax.petshop.classes.base.DatabaseProxy;
 import com.eax.petshop.classes.factories.ProxyFactory;
 import com.eax.petshop.classes.strategies.MySQLStrategy;
@@ -9,6 +10,11 @@ public class Controller {
 
     DatabaseProxy[] proxies;
 
+
+    public Controller()
+    {
+        proxies = new DatabaseProxy[0];
+    }
 
     public DatabaseProxy getProxy(String name)
     {
@@ -24,11 +30,17 @@ public class Controller {
         return proxy;
     }
 
-    public String getCachedOutput(String dbName, String table, String function, String[] parameters)
+    public String getCachedOutput(DatabaseProxy proxy, String table, String function, String[] parameters)
     {
-        DatabaseProxy proxy = getProxy(dbName);
+        CacheData data = proxy.getCachedData(table, function, parameters);
+        if(data!=null)
+            return data.output;
+        return null;
+    }
 
-        return proxy.getCachedData(table, function, parameters).output;
+    public void cache(DatabaseProxy proxy, String table, String function, String[] parameters, String output)
+    {
+        proxy.cache(table, function, parameters, output);
     }
 
     public String execQuery(String dbName, String query){
@@ -63,7 +75,18 @@ public class Controller {
         if(proxy==null)
             return "Could not find database with name " + dbName;
 
-        return proxy.getTablesByName(tableName);
+        // Caching
+        String[] cacheParameters = {dbName, tableName};
+        String cachedOutput = getCachedOutput(proxy, tableName, "table", cacheParameters);
+
+        if(cachedOutput!=null)
+            return cachedOutput;
+
+        String output = proxy.getTablesByName(tableName);
+        cache(proxy, tableName, "table", cacheParameters, output);
+
+
+        return output;
     }
 
     public String addTable(String dbName, String tableName, String... extraArgs) throws Exception

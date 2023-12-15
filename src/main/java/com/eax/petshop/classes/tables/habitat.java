@@ -14,7 +14,4 @@ public class habitat extends Table {
     public Integer idType;
 
     public habitat() throws Exception {}
-    public habitat(Integer idType) throws Exception {
-        this.idType=idType;
-    }
 }
