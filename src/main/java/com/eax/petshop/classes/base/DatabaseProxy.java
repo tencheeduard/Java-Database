@@ -54,6 +54,86 @@ public class DatabaseProxy extends Observable implements Observer {
         }
     }
 
+    public void removeTable(String tableName, String... params) throws Exception
+    {
+
+
+        Table[] tables = getStrategy().get(tableName);
+        if(params.length == 0)
+        {
+            for(Table table: tables)
+            {
+                database.remove(table);
+            }
+        }
+        else
+        {
+            Class<?> clazz = Class.forName("com.eax.petshop.classes.tables." + tableName);
+
+            Table table;
+            if(clazz.getDeclaredConstructor().newInstance() instanceof Table t)
+                table = t;
+            else
+                throw new Exception("Table with that name does not exist.");
+
+            boolean indexed = false;
+            for(String param: params)
+                if(!param.contains("=")) {
+                    indexed = true;
+                    break;
+                }
+
+            boolean[] toRemove = new boolean[tables.length];
+            Arrays.fill(toRemove, true);
+
+            if(indexed) {
+                Object[] values = new Object[params.length];
+                for(int i = 0; i < values.length; i++)
+                {
+                    if(table.getField(i).getType() != String.class)
+                        values[i] = StringConverter.convert(params[i], table.getField(i).getType());
+                }
+
+                for(int i = 0; i < tables.length; i++)
+                {
+                    for(int j = 0; j < values.length; j++)
+                    {
+                        Object value = tables[i].getProperty(j);
+                        if(value == null && values[j] != null || values[j] != null && value == null || !(value.equals(values[j])))
+                            toRemove[i] = false;
+                    }
+                }
+            }
+            else
+            {
+                Object[] values = new Object[params.length];
+                String[] valueNames = new String[params.length];
+                for(int i = 0; i < values.length; i++)
+                {
+                    String[] splitString = params[i].split("=");
+                    valueNames[i] = splitString[0];
+                    if(table.getField(valueNames[i]).getType() != String.class)
+                        values[i] = StringConverter.convert(splitString[1], table.getField(i).getType());
+                    else
+                        values[i] = splitString[1];
+                }
+
+                for(int i = 0; i < tables.length; i++)
+                {
+                    for(int j = 0; j < values.length; j++)
+                    {
+                        Object value = tables[i].getProperty(valueNames[j]);
+                        if(value == null && values[j] != null || value != null && values[j] == null || !(value.equals(values[j])))
+                            toRemove[i] = false;
+                    }
+                }
+            }
+            for(int i = 0; i < tables.length; i++)
+                if(toRemove[i])
+                    database.remove(tables[i]);
+        }
+    }
+
     public void addTable(String tableName, String... params) throws Exception
     {
         Class<?> clazz = Class.forName("com.eax.petshop.classes.tables." + tableName);

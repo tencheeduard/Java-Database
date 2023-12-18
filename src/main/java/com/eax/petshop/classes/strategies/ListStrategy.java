@@ -40,10 +40,9 @@ public class ListStrategy implements DatabaseStrategy {
 
         int repoIndex;
 
-        if(!contains(repo))
-            list.add(repo);
-
-        repoIndex = list.indexOf(repo);
+        for(repoIndex = 0; repoIndex < list.size(); repoIndex++)
+            if(list.get(repoIndex).equals(repo))
+                break;
 
         return list.get(repoIndex).remove(table);
     }
@@ -56,7 +55,7 @@ public class ListStrategy implements DatabaseStrategy {
 
         for(int i = 0; i < list.size(); i++)
         {
-            if(list.get(i).getValue(0).getClass().getSimpleName().equalsIgnoreCase(name))
+            if(list.get(i).getSize() > 0 && list.get(i).getValue(0).getClass().getSimpleName().equalsIgnoreCase(name))
             {
                 for (int j = 0; j < list.get(i).getSize(); j++) {
                     result = Arrays.copyOf(result, result.length + 1);

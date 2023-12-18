@@ -3,12 +3,13 @@ package com.eax.petshop.classes.controllers;
 import com.eax.petshop.classes.base.ArrayHelper;
 import com.eax.petshop.classes.base.CacheData;
 import com.eax.petshop.classes.base.DatabaseProxy;
+import com.eax.petshop.classes.base.Table;
 import com.eax.petshop.classes.factories.ProxyFactory;
 import com.eax.petshop.classes.strategies.MySQLStrategy;
 
 public class Controller {
 
-    DatabaseProxy[] proxies;
+    public DatabaseProxy[] proxies;
 
 
     public Controller()
@@ -20,10 +21,9 @@ public class Controller {
     {
         DatabaseProxy proxy = null;
 
-        for(int i = 0; i < proxies.length; i++)
-            if(proxies[i].getDatabaseName().equalsIgnoreCase(name))
-            {
-                proxy = proxies[i];
+        for (DatabaseProxy p : proxies)
+            if (p.getDatabaseName().equalsIgnoreCase(name)) {
+                proxy = p;
                 break;
             }
 
@@ -43,8 +43,8 @@ public class Controller {
         proxy.cache(table, function, parameters, output);
     }
 
-    public String execQuery(String dbName, String query){
-
+    public String execQuery(String dbName, String query)
+    {
         DatabaseProxy proxy = getProxy(dbName);
         if(proxy==null)
             return "Could not find database with name " + dbName;
@@ -54,7 +54,7 @@ public class Controller {
         return "Could not create Query";
     }
 
-    public String createDatabase(String name, String choice, String[] extraArgs)
+    public String createDatabase(String name, String choice, String... extraArgs)
     {
         DatabaseProxy proxy = ProxyFactory.create(name, choice, extraArgs);
 
@@ -104,7 +104,19 @@ public class Controller {
         return "Successfully added Table";
     }
 
-    public String hasTable(String dbName, String tableName) throws Exception
+    public String removeTable(String dbName, String tableName, String... extraArgs) throws Exception
+    {
+        DatabaseProxy proxy = getProxy(dbName);
+        if(proxy==null)
+            return "Could not find database with name " + dbName;
+
+        proxy.removeTable(tableName, extraArgs);
+
+        return "Removing tables";
+
+    }
+
+    public String hasTable(String dbName, String tableName)
     {
 
         DatabaseProxy proxy = getProxy(dbName);

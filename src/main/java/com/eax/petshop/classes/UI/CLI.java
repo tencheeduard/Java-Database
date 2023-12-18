@@ -160,9 +160,19 @@ public class CLI {
     {
         // Format: {databaseName, tableName}
         if(args.length < 2)
-            return "Usage: addTable databaseName tableName";
+            return "Usage: addTable databaseName tableName extraArgs";
 
         return controller.addTable(args[0], args[1], ArrayHelper.clone(args, 2));
+    }
+
+    @CLICommand
+    public String removeTable(String[] args) throws Exception
+    {
+        // Format: {databaseName, tableName}
+        if(args.length < 2)
+            return "Usage: removeTable databaseName tableName extraArgs";
+
+        return controller.removeTable(args[0], args[1], ArrayHelper.clone(args, 2));
     }
 
     @CLICommand

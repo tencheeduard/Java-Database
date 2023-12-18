@@ -32,7 +32,7 @@ public abstract class Repo<T> {
     public boolean remove(Object obj)
     {
         T instance = castToGeneric(obj);
-        if(instance != null && !contains(instance))
+        if(instance != null && contains(instance))
             return removeFromRepo(instance);
         return false;
     }
