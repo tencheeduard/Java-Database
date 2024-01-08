@@ -133,7 +133,7 @@ public class REST {
             @RequestParam(value = "dbName") String dbName,
             @RequestParam(value = "idAnimal", defaultValue = "0") Integer idAnimal,
             @RequestParam(value = "name") String name,
-            @RequestParam(value = "date") String date,
+            @RequestParam(value = "date"    ) String date,
             @RequestParam(value = "animalType") Integer animalType
     ) throws Exception {
         Date dt = Date.valueOf(date);
@@ -148,7 +148,7 @@ public class REST {
     }
 
     @GetMapping("/getAnimals")
-    public String getAnimals(
+            public String getAnimals(
             @RequestParam(value = "dbName") String dbName
     ) throws Exception {
         return animalController.getAnimals(controller, dbName);
@@ -274,7 +274,7 @@ public class REST {
         return receiptAnimalController.removeReceiptAnimal(controller, dbName, conditions);
     }
 
-    @GetMapping("/getReceiptAniamls")
+    @GetMapping("/getReceiptAnimals")
     public String getReceiptAnimals(
             @RequestParam(value = "dbName") String dbName
     ) throws Exception {

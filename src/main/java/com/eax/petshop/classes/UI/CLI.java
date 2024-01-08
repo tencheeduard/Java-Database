@@ -174,7 +174,7 @@ public class CLI {
     }
 
     @CLICommand
-    public String hasTable(String[] args) throws Exception
+        public String hasTable(String[] args)
     {
         // Format: {databaseName, tableName}
         if(args.length < 2)
