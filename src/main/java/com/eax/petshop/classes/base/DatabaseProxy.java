@@ -1,5 +1,8 @@
 package com.eax.petshop.classes.base;
 
+import com.eax.petshop.classes.helpers.ArrayHelper;
+import com.eax.petshop.classes.helpers.StringConverter;
+
 import java.util.Arrays;
 
 public class DatabaseProxy extends Observable implements Observer {
@@ -184,7 +187,7 @@ public class DatabaseProxy extends Observable implements Observer {
         return null;
     }
 
-    public void cache(String tableName, String function, String[] parameters, String output)
+            public void cache(String tableName, String function, String[] parameters, String output)
     {
         CacheData data = new CacheData(tableName, function, parameters, output);
 

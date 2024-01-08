@@ -1,6 +1,6 @@
 package com.eax.petshop.classes.strategies;
 
-import com.eax.petshop.classes.base.ArrayHelper;
+import com.eax.petshop.classes.helpers.ArrayHelper;
 import com.eax.petshop.classes.base.DatabaseStrategy;
 import com.eax.petshop.classes.base.Table;
 

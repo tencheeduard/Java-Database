@@ -1,5 +1,7 @@
 package com.eax.petshop.classes.base;
 
+import com.eax.petshop.classes.helpers.ArrayHelper;
+
 public abstract class Observable {
 
     public Observer[] observers = new Observer[0];

@@ -6,7 +6,7 @@ import com.eax.petshop.classes.annotations.PrimaryKey;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 
-public class Table {
+public abstract class Table {
 
     public Field[] primaryKeys;
 

@@ -21,9 +21,9 @@ public abstract class Repo<T> {
                     primaryKey.set(table, getMaxIncrement(primaryKey)+1);
                 }
             }
+            if(!contains(instance))
+                return addToRepo(instance);
         }
-        if(!contains(instance))
-            return addToRepo(instance);
         return false;
     }
 

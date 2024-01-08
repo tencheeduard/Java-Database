@@ -1,4 +1,4 @@
-package com.eax.petshop.classes.base;
+package com.eax.petshop.classes.helpers;
 
 import java.sql.Date;
 

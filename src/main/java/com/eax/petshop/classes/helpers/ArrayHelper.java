@@ -1,7 +1,6 @@
-package com.eax.petshop.classes.base;
+package com.eax.petshop.classes.helpers;
 
 import java.lang.reflect.Array;
-import java.util.Arrays;
 
 public class ArrayHelper {
 
@@ -93,22 +92,10 @@ public class ArrayHelper {
 
         S[] result = (S[]) Array.newInstance(clazz, 0);
 
-        S[] larger;
-        S[] smaller;
-        if(array.length > array2.length) {
-            larger = array;
-            smaller = array2;
-        }
-        else
+        for(int i = 0; i < array.length; i++)
         {
-            larger = array2;
-            smaller = array;
-        }
-
-        for(int i = 0; i < larger.length; i++)
-        {
-            if (!contains(smaller, larger[i]))
-                result = addElement(result, larger[i]);
+            if (!contains(array2, array[i]))
+                result = addElement(result, array[i]);
         }
 
         return result;

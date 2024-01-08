@@ -41,7 +41,7 @@ public class Database extends Observable implements Observer {
     }
 
     public Table[] getTables(String tableName){
-        return strategy.get(tableName);
+            return strategy.get(tableName);
     }
 
     public String getName() { return name; }

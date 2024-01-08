@@ -1,9 +1,7 @@
 package com.eax.petshop.classes.UI;
 
 import com.eax.petshop.classes.annotations.CLICommand;
-import com.eax.petshop.classes.base.ArrayHelper;
-import com.eax.petshop.classes.base.CacheData;
-import com.eax.petshop.classes.base.DatabaseProxy;
+import com.eax.petshop.classes.helpers.ArrayHelper;
 import com.eax.petshop.classes.controllers.Controller;
 import com.eax.petshop.classes.factories.ProxyFactory;
 

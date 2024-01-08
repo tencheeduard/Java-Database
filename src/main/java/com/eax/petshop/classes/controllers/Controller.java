@@ -1,9 +1,8 @@
 package com.eax.petshop.classes.controllers;
 
-import com.eax.petshop.classes.base.ArrayHelper;
+import com.eax.petshop.classes.helpers.ArrayHelper;
 import com.eax.petshop.classes.base.CacheData;
 import com.eax.petshop.classes.base.DatabaseProxy;
-import com.eax.petshop.classes.base.Table;
 import com.eax.petshop.classes.factories.ProxyFactory;
 import com.eax.petshop.classes.strategies.MySQLStrategy;
 
