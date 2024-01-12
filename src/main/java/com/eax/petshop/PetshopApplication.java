@@ -43,12 +43,6 @@ public class PetshopApplication {
 
 		Controller controller = new Controller();
 		CLI cli = new CLI(controller);
-
-		File passwordFile = new File("src\\password.txt");
-		String password = new Scanner(passwordFile).nextLine();
-
-		cli.invoke("cdb db mysql localhost 3306 petshop root " + password);
-
 		cli.start();
 
 		if(cli.exitCode == 1)

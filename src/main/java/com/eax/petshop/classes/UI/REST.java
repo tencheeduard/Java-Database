@@ -12,8 +12,6 @@ import java.util.Scanner;
 @RestController
 public class REST {
 
-    String password;
-
     Controller controller;
     AnimalController animalController;
     AnimalTypeController animalTypeController;
@@ -25,25 +23,12 @@ public class REST {
     public REST()
     {
         controller = new Controller();
-        String[] args = {"localhost", "3306", "petshop", "root", "edii"};
-        controller.createDatabase("db", "MySQL", args);
         animalController = new AnimalController();
         animalTypeController = new AnimalTypeController();
         clientController = new ClientController();
         habitatController = new HabitatController();
         receiptAnimalController = new ReceiptAnimalController();
         receiptController = new ReceiptController();
-        try {
-            File passwordFile = new File("src\\password.txt");
-            password = new Scanner(passwordFile).nextLine();
-        }
-        catch(Exception e)
-        {
-            try {
-                print(e.toString());
-            }
-            catch (Exception ex) { }
-        }
     }
 
     public void setController(Controller controller)
@@ -56,6 +41,19 @@ public class REST {
             @RequestParam(value = "message", defaultValue = "Hello World!") String message
     ) throws Exception {
         return message;
+    }
+
+    @GetMapping("/connect")
+    public String print(
+            @RequestParam(value = "dbName", defaultValue = "db") String dbName,
+            @RequestParam(value = "address", defaultValue = "localhost") String address,
+            @RequestParam(value = "port", defaultValue = "3306") String port,
+            @RequestParam(value = "mySqlDB", defaultValue = "petshop") String mySqlDB,
+            @RequestParam(value = "username") String username,
+            @RequestParam(value = "password") String password
+    ) throws Exception {
+        String[] args = { address, port, mySqlDB, username, password  };
+        return controller.createDatabase(dbName, "MySQL", args);
     }
 
     @GetMapping("/execQuery")
@@ -133,7 +131,7 @@ public class REST {
             @RequestParam(value = "dbName") String dbName,
             @RequestParam(value = "idAnimal", defaultValue = "0") Integer idAnimal,
             @RequestParam(value = "name") String name,
-            @RequestParam(value = "date"    ) String date,
+            @RequestParam(value = "date") String date,
             @RequestParam(value = "animalType") Integer animalType
     ) throws Exception {
         Date dt = Date.valueOf(date);
